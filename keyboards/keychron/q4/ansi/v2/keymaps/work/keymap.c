@@ -31,8 +31,12 @@ enum custom_keycodes {
     M_RSFT_ARROW = SAFE_RANGE,
     M_WIN_FN1_ARROW,
     M_FN2_ARROW,
-    M_RCTL_ARROW
+    M_RCTL_ARROW,
+    M_CAPS_LOCK,
 };
+
+static fast_timer_t caps_tap_timer = 0;
+static bool caps_pressed = false;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC_BASE] = LAYOUT_ansi_61(
@@ -45,8 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [WIN_BASE] = LAYOUT_ansi_61(
         KC_GRV,  KC_1,     KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,  KC_EQL,         KC_BSPC,
         KC_TAB,  KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,        KC_BSLS,
-  LT(HOLD_CAPS, 
-        KC_ESC),  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,                  KC_ENT,
+    M_CAPS_LOCK,  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,                  KC_ENT,
         KC_LSFT,  KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,               M_RSFT_ARROW,
         KC_LCTL,  KC_LGUI,  KC_LALT,                            KC_SPC,                             KC_RALT,  M_WIN_FN1_ARROW, M_FN2_ARROW, M_RCTL_ARROW),
 
@@ -83,6 +86,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     bool is_left_mode_active = get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_LALT) || get_mods() & MOD_BIT(KC_LSFT);
     switch (keycode) {
+    case M_CAPS_LOCK:
+        if (record->event.pressed) {
+            caps_tap_timer = timer_read_fast();
+            caps_pressed = true;
+            layer_on(HOLD_CAPS);
+        } else {
+            if (caps_pressed && timer_elapsed_fast(caps_tap_timer) < TAPPING_TERM) {
+                tap_code(KC_ESC);
+            }
+            layer_off(HOLD_CAPS);
+            caps_pressed = false;
+        }
+        return false;
     case M_RSFT_ARROW:
         if (record->event.pressed) {
             if (is_left_mode_active) {
@@ -131,7 +147,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             unregister_code(KC_RCTL);
         }
         return false;
-
+    case KC_SPC:
+        if (record->event.pressed && layer_state_is(HOLD_CAPS)) {
+            caps_word_toggle();
+            return false;
+        }
     default:
         return true;
     }
