@@ -86,44 +86,48 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case M_RSFT_ARROW:
         if (record->event.pressed) {
             if (is_left_mode_active) {
-                tap_code(KC_UP);
+                register_code(KC_UP);
             } else {
                 register_code(KC_RSFT);
             }
         } else {
+            unregister_code(KC_UP);
             unregister_code(KC_RSFT);
         }
         return false;
     case M_WIN_FN1_ARROW:
         if (record->event.pressed) {
             if (is_left_mode_active) {
-                tap_code(KC_LEFT);
+                register_code(KC_LEFT);
             } else {    
                 layer_on(WIN_FN1);
             }
         } else {
+            unregister_code(KC_LEFT);
             layer_off(WIN_FN1);
         }
         return false;
     case M_FN2_ARROW:
         if (record->event.pressed) {
             if (is_left_mode_active) {
-                tap_code(KC_DOWN);
+                register_code(KC_DOWN);
             } else {
                 layer_on(ALL_FN2);
             }
         } else {
+            unregister_code(KC_DOWN);
             layer_off(ALL_FN2);
         }
         return false;
     case M_RCTL_ARROW:
         if (record->event.pressed) {
             if (is_left_mode_active) {
-                tap_code(KC_RIGHT);
+                register_code(KC_RIGHT);
             } else {
                 register_code(KC_RCTL);
             }
         } else {
+            unregister_code(KC_RIGHT);
             unregister_code(KC_RCTL);
         }
         return false;
