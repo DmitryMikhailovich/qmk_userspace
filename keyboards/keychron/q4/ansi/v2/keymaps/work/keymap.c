@@ -50,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV,  KC_1,     KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,  KC_EQL,         KC_BSPC,
         KC_TAB,  KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,        KC_BSLS,
     M_CAPS_LOCK,  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,                  KC_ENT,
-        KC_LSFT,  KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,               M_RSFT_ARROW,
+        KC_LSFT,  KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,                      M_RSFT_ARROW,
         KC_LCTL,  KC_LGUI,  KC_LALT,                            KC_SPC,                             KC_RALT,  M_WIN_FN1_ARROW, M_FN2_ARROW, M_RCTL_ARROW),
 
     [MAC_FN1] = LAYOUT_ansi_61(
@@ -78,13 +78,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,          KC_DEL,
         _______, _______,  _______, _______, _______, _______, _______, KC_HOME, KC_PGUP, KC_PGDN, KC_END,  _______,  _______,         KC_CAPS,
         _______, _______,  _______,  KC_DEL, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______,  _______,                  KC_INS,
-        _______,           _______, _______, C(KC_C), C(KC_V), _______, _______, _______,  _______, _______,  _______,                 _______,
-        _______, _______,  _______,                            _______,                             _______,  _______,  _______,       _______)
+        _______,           _______, _______, C(KC_C), C(KC_V), _______, _______, _______,  _______, _______,  _______,            M_RSFT_ARROW,
+        _______, _______,  _______,                            _______,                             _______, M_WIN_FN1_ARROW, M_FN2_ARROW, M_RCTL_ARROW)
                                                             /* ^^^^^^^caps word*/
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     bool is_left_mode_active = get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_LALT) || get_mods() & MOD_BIT(KC_LSFT);
+    bool caps_layer_active = layer_state_is(HOLD_CAPS);
     switch (keycode) {
     case M_CAPS_LOCK:
         if (record->event.pressed) {
@@ -101,7 +102,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     case M_RSFT_ARROW:
         if (record->event.pressed) {
-            if (is_left_mode_active) {
+            if (is_left_mode_active || caps_layer_active) {
                 register_code(KC_UP);
             } else {
                 register_code(KC_RSFT);
@@ -113,7 +114,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     case M_WIN_FN1_ARROW:
         if (record->event.pressed) {
-            if (is_left_mode_active) {
+            if (is_left_mode_active || caps_layer_active) {
                 register_code(KC_LEFT);
             } else {    
                 layer_on(WIN_FN1);
@@ -125,7 +126,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     case M_FN2_ARROW:
         if (record->event.pressed) {
-            if (is_left_mode_active) {
+            if (is_left_mode_active || caps_layer_active) {
                 register_code(KC_DOWN);
             } else {
                 layer_on(ALL_FN2);
@@ -137,7 +138,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     case M_RCTL_ARROW:
         if (record->event.pressed) {
-            if (is_left_mode_active) {
+            if (is_left_mode_active || caps_layer_active) {
                 register_code(KC_RIGHT);
             } else {
                 register_code(KC_RCTL);
@@ -148,7 +149,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return false;
     case KC_SPC:
-        if (record->event.pressed && layer_state_is(HOLD_CAPS)) {
+        if (record->event.pressed && caps_layer_active) {
             caps_word_toggle();
             return false;
         }
