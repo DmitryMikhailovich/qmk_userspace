@@ -80,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______,  _______,  KC_DEL, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______,  _______,                  KC_INS,
         _______,           _______, _______, C(KC_C), C(KC_V), _______, _______, _______,  _______, _______,  _______,                 KC_CAPS,
         _______, _______,  _______,                            _______,                            _______,  _______,  _______,        _______)
-    
+                                                            /* ^^^^^^^caps word*/
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
