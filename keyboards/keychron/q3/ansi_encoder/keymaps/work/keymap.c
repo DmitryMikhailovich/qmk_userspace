@@ -16,6 +16,9 @@
 
 #include QMK_KEYBOARD_H
 
+#define KC_TASK LGUI(KC_TAB)
+#define KC_FLXP LGUI(KC_E)
+
 enum layers{
     MAC_BASE,
     MAC_FN,
@@ -24,12 +27,12 @@ enum layers{
     HOLD_CAPS
 };
 
-enum {
-    TD_LSFT_CAPS,
+enum custom_keycodes {
+    M_CAPS_LOCK = SAFE_RANGE
 };
 
-#define KC_TASK LGUI(KC_TAB)
-#define KC_FLXP LGUI(KC_E)
+static fast_timer_t caps_tap_timer = 0;
+static bool caps_pressed = false;
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -53,10 +56,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_MUTE,  KC_PSCR,  XXXXXXX,/*TODO*/    RGB_MOD,
         KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,     KC_BSPC,  KC_INS,   KC_HOME,  KC_PGUP,
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,    KC_BSLS,  KC_DEL,   KC_END,   KC_PGDN,
-    LT(HOLD_CAPS, 
-       KC_ESC),   KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,              KC_ENT,
-TD(TD_LSFT_CAPS),           KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
-        KC_LCTL,  KC_LWIN,  KC_LALT,                                KC_SPC,                                 KC_RALT,  MO(WIN_FN),  KC_APP,  KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+   M_CAPS_LOCK,   KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,              KC_ENT,
+       KC_LSFT,             KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
+       KC_LCTL,   KC_LWIN,  KC_LALT,                                KC_SPC,                                 KC_RALT,  MO(WIN_FN),  KC_APP,  KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [WIN_FN] = LAYOUT_tkl_f13_ansi(
         _______,  KC_MPLY,  KC_MUTE,  KC_MPRV,  KC_MNXT,  KC_BRID,  KC_BRIU,  _______,  _______,  _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,
@@ -67,19 +69,14 @@ TD(TD_LSFT_CAPS),           KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC
         _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    _______,  _______,  _______,  _______),
 
     [HOLD_CAPS] = LAYOUT_tkl_f13_ansi(
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,    MS_BTN3,  XXXXXXX,  QK_LLCK,  XXXXXXX,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_PGUP,  S(KC_INS),XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  XXXXXXX,  XXXXXXX,              MS_BTN1,
-        XXXXXXX,            XXXXXXX,  XXXXXXX,  C(KC_C),  C(KC_V),  XXXXXXX,  KC_PGDN,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,              XXXXXXX,            MS_UP,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,                                XXXXXXX,                                XXXXXXX,  XXXXXXX,  MS_BTN2,    XXXXXXX,  MS_LEFT,  MS_DOWN,  MS_RGHT),
-};
+        XXXXXXX,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    XXXXXXX,  XXXXXXX,  QK_LLCK,  XXXXXXX,
+        XXXXXXX,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_DEL,   XXXXXXX,  XXXXXXX,  XXXXXXX,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_HOME,  KC_PGUP,  KC_PGDN,  KC_END,   XXXXXXX,  XXXXXXX,    XXXXXXX,  MS_BTN1,  MS_BTN3,  MS_BTN2,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_DEL,   XXXXXXX,  XXXXXXX,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  XXXXXXX,  XXXXXXX,              KC_INS,
+        XXXXXXX,            XXXXXXX,  XXXXXXX,  C(KC_C),  C(KC_V),  XXXXXXX,  KC_PGDN,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,              KC_CAPS,            MS_UP,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,                                _______,                                XXXXXXX,  XXXXXXX,  XXXXXXX,    MS_BTN1,  MS_LEFT,  MS_DOWN,  MS_RGHT),
+};                                                               /* ^^^^^^^caps word*/
 
-// Tap Dance definitions
-tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for Left Shift, twice for Caps Lock
-    [TD_LSFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
-};
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
@@ -90,3 +87,29 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [HOLD_CAPS]   = {ENCODER_CCW_CW(MS_WHLU, MS_WHLD) }
 };
 #endif // ENCODER_MAP_ENABLE
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    bool caps_layer_active = layer_state_is(HOLD_CAPS);
+    switch (keycode) {
+    case M_CAPS_LOCK:
+        if (record->event.pressed) {
+            caps_tap_timer = timer_read_fast();
+            caps_pressed = true;
+            layer_on(HOLD_CAPS);
+        } else {
+            if (caps_pressed && timer_elapsed_fast(caps_tap_timer) < TAPPING_TERM) {
+                tap_code(KC_ESC);
+            }
+            layer_off(HOLD_CAPS);
+            caps_pressed = false;
+        }
+        return false;
+    case KC_SPC:
+        if (record->event.pressed && caps_layer_active) {
+            caps_word_toggle();
+            return false;
+        }
+    default:
+        return true;
+    }
+}
