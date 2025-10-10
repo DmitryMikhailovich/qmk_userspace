@@ -73,8 +73,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_DEL,   XXXXXXX,  XXXXXXX,  XXXXXXX,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_HOME,  KC_PGUP,  KC_PGDN,  KC_END,   XXXXXXX,  XXXXXXX,    KC_CAPS,  MS_BTN1,  MS_BTN3,  MS_BTN2,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_DEL,   XXXXXXX,  XXXXXXX,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  XXXXXXX,  XXXXXXX,              KC_INS,
-        XXXXXXX,            XXXXXXX,  XXXXXXX,  C(KC_C),  C(KC_V),  XXXXXXX,  KC_PGDN,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,              KC_CAPS,            MS_UP,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,                                _______,                                XXXXXXX,  XXXXXXX,  XXXXXXX,    MS_BTN1,  MS_LEFT,  MS_DOWN,  MS_RGHT),
+        _______,            XXXXXXX,  XXXXXXX,  C(KC_C),  C(KC_V),  XXXXXXX,  KC_PGDN,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,              KC_CAPS,            MS_UP,
+        _______,  _______,  _______,                                _______,                                XXXXXXX,  XXXXXXX,  XXXXXXX,    MS_BTN1,  MS_LEFT,  MS_DOWN,  MS_RGHT),
 };                                                               /* ^^^^^^^caps word*/
 
 
