@@ -93,11 +93,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             caps_pressed = true;
             layer_on(HOLD_CAPS);
         } else {
-            if (caps_pressed && timer_elapsed_fast(caps_tap_timer) < TAPPING_TERM) {
-                tap_code(KC_ESC);
+            if (caps_pressed) {
+                if(timer_elapsed_fast(caps_tap_timer) < TAPPING_TERM) {
+                    tap_code(KC_ESC);
+                }
+                layer_off(HOLD_CAPS);
+                caps_pressed = false;
             }
-            layer_off(HOLD_CAPS);
-            caps_pressed = false;
         }
         return false;
     case M_RSFT:
