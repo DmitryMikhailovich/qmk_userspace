@@ -48,7 +48,7 @@ M_CAPS_LOCK,    KC_A,       KC_S,       KC_D,         KC_F,       KC_G,      KC_
 
 // layer Mac Fn
 [MAC_FN] = LAYOUT_75_ansi(
-    _______,     KC_BRID,   KC_BRIU,    KC_MCTL,      MAC_SEARCH,  MAC_VOICE, MAC_DND,    KC_MPRV,    KC_MPLY,    KC_MNXT,    KC_MUTE,    KC_VOLD,    KC_VOLU,    KC_SCRE,     _______,    _______,
+    _______,     KC_BRID,   KC_BRIU,    KC_MCTL,      MAC_SEARCH,  MAC_VOICE, MAC_DND,   KC_MPRV,    KC_MPLY,    KC_MNXT,    KC_MUTE,    KC_VOLD,    KC_VOLU,    KC_SCRE,      _______,    _______,
     _______,     LNK_BLE1,  LNK_BLE2,   LNK_BLE3,     LNK_RF,      _______,  _______,    _______,    _______,    _______,    _______,    _______,    _______,                  _______,    _______,
     _______,     _______,   _______,    _______,      _______,     _______,  _______,    _______,    _______,    _______,    _______,    DEV_RESET,  SLEEP_MODE,               BAT_SHOW,   _______,
     _______,     _______,   _______,    KC_DEL,       _______,     _______,  _______,    _______,    _______,    _______,    _______,    _______,                              _______,    _______,
@@ -76,10 +76,10 @@ M_CAPS_LOCK,    KC_A,       KC_S,       KC_D,         KC_F,       KC_G,       KC
 // hold caps layer
 [HOLD_CAPS] = LAYOUT_75_ansi(
     XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,     XXXXXXX,     XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,      XXXXXXX,     XXXXXXX,    XXXXXXX,    KC_ARFI,   XXXXXXX,    XXXXXXX,
-    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,     XXXXXXX,     XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,      XXXXXXX,     KC_DEL,     XXXXXXX,               XXXXXXX,    XXXXXXX,
-    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,     XXXXXXX,     XXXXXXX,    XXXXXXX,    KC_HOME,    KC_PGUP,    KC_PGDN,      KC_END,      KC_CAPS,    XXXXXXX,               XXXXXXX,    XXXXXXX,
-    XXXXXXX,    XXXXXXX,    XXXXXXX,    KC_DEL,      XXXXXXX,     XXXXXXX,    KC_LEFT,    KC_DOWN,    KC_UP,      KC_RIGHT,     XXXXXXX,     KC_INS,                            XXXXXXX,    XXXXXXX,
-    _______,                XXXXXXX,    XXXXXXX,     C(KC_C),     C(KC_V),    XXXXXXX,    XXXXXXX,    XXXXXXX,    SIDE_SPD,     SIDE_SPI,    KC_CAPS,                XXXXXXX,   SIDE_VAI,   XXXXXXX,
+    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,     XXXXXXX,     XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,      XXXXXXX,     XXXXXXX,     XXXXXXX,               KC_DEL,    XXXXXXX,
+    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,     XXXXXXX,     XXXXXXX,    XXXXXXX,    KC_HOME,    KC_PGUP,    KC_PGDN,      KC_END,      XXXXXXX,    XXXXXXX,               KC_CAPS,    XXXXXXX,
+    XXXXXXX,    XXXXXXX,    XXXXXXX,    KC_DEL,      XXXXXXX,     XXXXXXX,    KC_LEFT,    KC_DOWN,    KC_UP,      KC_RIGHT,     XXXXXXX,     XXXXXXX,                            KC_INS,    XXXXXXX,
+    _______,                XXXXXXX,    XXXXXXX,     C(KC_C),     C(KC_V),    XXXXXXX,    XXXXXXX,    XXXXXXX,    SIDE_SPD,     SIDE_SPI,    XXXXXXX,                KC_CAPS,   SIDE_VAI,   XXXXXXX,
     _______,    _______,    _______,                                          _______,                            XXXXXXX,      XXXXXXX,     XXXXXXX,                SIDE_MOD,  SIDE_VAD,   SIDE_HUI)
 };                                                                         /* ^^^^^^^caps word*/
 
