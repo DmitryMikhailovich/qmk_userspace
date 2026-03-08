@@ -40,6 +40,7 @@ enum custom_keycodes {
 static fast_timer_t caps_tap_timer = 0;
 static bool caps_pressed = false;
 static bool is_mac = false;
+static bool is_mac_fn_on = false;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC_BASE] = LAYOUT_ansi_61(
@@ -47,21 +48,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,        KC_BSLS,
     M_CAPS_LOCK, KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,                  KC_ENT,
         KC_LSFT,           KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,                  M_RSFT,
-        KC_LCTL, KC_LOPT,  KC_LCMD,                            KC_SPC,                             KC_RCMD,  M_MAC_FN1, M_FN2, M_RCTL),
+        KC_LCTL, KC_LOPT,  KC_LCMD,                            KC_SPC,                             KC_RCMD,  M_MAC_FN1,  M_FN2,        M_RCTL),
 
     [WIN_BASE] = LAYOUT_ansi_61(
         KC_GRV,  KC_1,     KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,  KC_EQL,         KC_BSPC,
         KC_TAB,  KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,        KC_BSLS,
-    M_CAPS_LOCK,  KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,                  KC_ENT,
-        KC_LSFT,  KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,                            M_RSFT,
-        KC_LCTL,  KC_LGUI,  KC_LALT,                            KC_SPC,                             KC_RALT,  M_WIN_FN1, M_FN2,         M_RCTL),
+    M_CAPS_LOCK,  KC_A,     KC_S,   KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,                  KC_ENT,
+        KC_LSFT,            KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,   KC_SLSH,                  M_RSFT,
+        KC_LCTL,  KC_LGUI,  KC_LALT,                           KC_SPC,                             KC_RALT,  M_WIN_FN1, M_FN2,         M_RCTL),
 
     [MAC_FN1] = LAYOUT_ansi_61(
-        _______,  KC_BRID,  KC_BRIU, KC_NO,   KC_NO,   RM_VALD, RM_VALU, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,  KC_VOLD,  KC_VOLU,  RM_NEXT,
-        _______,  KC_HOME,  KC_UP,   KC_END, _______, _______, _______, _______, _______, _______, _______,   _______,  _______,  _______,
-        _______,  KC_LEFT,  KC_DOWN,KC_RIGHT, _______, _______, _______, _______, _______, _______, _______, _______,             _______,
-        _______,           _______, _______, _______, _______, _______, NK_TOGG, _______, _______, _______, _______,             _______,
-        _______, _______,  _______,                            _______,                            _______,  _______,  _______,  _______),
+        _______,  KC_BRID,  KC_BRIU, KC_MCTL, KC_LPAD, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,
+        _______,  KC_HOME,  KC_UP,    KC_END, KC_PGUP, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
+        _______,  KC_LEFT,  KC_DOWN,KC_RIGHT, KC_PGDN, _______, _______, _______, _______, _______, _______,  _______,            _______,
+        _______,           _______, _______, _______,  _______, _______, NK_TOGG, _______, _______, _______,  _______,            _______,
+        _______, _______,  _______,                            _______,                            _______,  _______,   _______,  _______),
 
     [WIN_FN1] = LAYOUT_ansi_61(
         _______, KC_MPLY,  KC_MUTE, KC_MPRV, KC_MNXT, KC_BRID, KC_BRIU, _______, _______, _______, _______,  _______,  _______,        _______,
@@ -81,13 +82,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX, KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,         KC_DEL,
         XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_PGUP, KC_PGDN, KC_END,   XXXXXXX,  XXXXXXX,        KC_CAPS,
         XXXXXXX, XXXXXXX,  XXXXXXX,  KC_DEL, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,XXXXXXX,  XXXXXXX,                  KC_INS,
-        _______,           XXXXXXX, XXXXXXX, C(KC_C), C(KC_V), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                  M_RSFT,
+        _______,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                  M_RSFT,
         _______, _______,  _______,                            _______,                            XXXXXXX,  M_FN1,    M_FN2,          M_RCTL)
                                                             /* ^^^^^^^caps word*/
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    bool is_left_mode_active = get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_LALT) || get_mods() & MOD_BIT(KC_LSFT);
+    bool is_left_mode_active = get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_LALT) || get_mods() & MOD_BIT(KC_LOPT) || get_mods() & MOD_BIT(KC_LCMD) || get_mods() & MOD_BIT(KC_LSFT);
     bool caps_layer_active = layer_state_is(HOLD_CAPS);
     switch (keycode) {
     case M_CAPS_LOCK:
@@ -122,11 +123,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (is_left_mode_active || caps_layer_active) {
                 register_code(KC_LEFT);
             } else {
-                layer_on(MAC_FN1);
+                register_code(KC_ROPT);
             }
         } else {
             unregister_code(KC_LEFT);
-            layer_off(MAC_FN1);
+            unregister_code(KC_ROPT);
         }
         return false;
     case M_WIN_FN1:
@@ -141,24 +142,41 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             layer_off(WIN_FN1);
         }
         return false;
+    case M_RCTL:
+        if (record->event.pressed) {
+            if (is_left_mode_active || caps_layer_active) {
+                register_code(KC_RIGHT);
+            } else {
+                if (is_mac_fn_on) {
+                    layer_on(ALL_FN2);
+                } else {
+                    register_code(KC_RCTL);
+                }
+            }
+        } else {
+            unregister_code(KC_RIGHT);
+            unregister_code(KC_RCTL);
+            layer_off(ALL_FN2);
+        }
+        return false;
     case M_FN1:
         if (record->event.pressed) {
             if (is_left_mode_active || caps_layer_active) {
                 register_code(KC_LEFT);
             } else {
-                if (is_mac) {
-                    layer_on(MAC_FN1);
-                } else {
+                // if (is_mac) {
+                //     layer_on(MAC_FN1);
+                // } else {
                     layer_on(WIN_FN1);
-                }
+                // }
             }
         } else {
             unregister_code(KC_LEFT);
-            if (is_mac) {
-                layer_off(MAC_FN1);
-            } else {
+            // if (is_mac) {
+            //     layer_off(MAC_FN1);
+            // } else {
                 layer_off(WIN_FN1);
-            }
+            // }
         }
         return false;
     case M_FN2:
@@ -166,23 +184,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (is_left_mode_active || caps_layer_active) {
                 register_code(KC_DOWN);
             } else {
-                layer_on(ALL_FN2);
+                if (is_mac) {
+                    is_mac_fn_on = true;
+                    layer_on(MAC_FN1);
+                } else {
+                    layer_on(ALL_FN2);
+                }
             }
         } else {
             unregister_code(KC_DOWN);
-            layer_off(ALL_FN2);
-        }
-        return false;
-    case M_RCTL:
-        if (record->event.pressed) {
-            if (is_left_mode_active || caps_layer_active) {
-                register_code(KC_RIGHT);
+            if (is_mac) {
+                is_mac_fn_on = false;
+                layer_off(MAC_FN1);
             } else {
-                register_code(KC_RCTL);
+                layer_off(ALL_FN2);
             }
-        } else {
-            unregister_code(KC_RIGHT);
-            unregister_code(KC_RCTL);
         }
         return false;
     case KC_SPC:
@@ -196,11 +212,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool dip_switch_update_user(uint8_t index, bool active) {
+    is_mac = true;
     switch (index) {
         case 0:
-        is_mac = !active;
-        case 1:
-        is_mac = active;
+        is_mac = active ? false : true;
     }
     return true;
 }
