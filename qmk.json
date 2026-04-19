@@ -1,8 +1,9 @@
 {
-    "userspace_version": "1.0",
+    "userspace_version": "1.1",
     "build_targets": [
         ["keychron/q3/ansi_encoder", "work"],
         ["keychron/q4/ansi/v2", "work"],
-        ["nuphy/air75_v2/ansi", "work"]
+        ["nuphy/air75_v2/ansi", "work"],
+        ["silakka54", "work_macos"]
     ]
 }
