@@ -8,6 +8,7 @@
 #define U_CPY LCMD(KC_C)
 #define U_CUT LCMD(KC_X)
 #define U_UND LCMD(KC_Z)
+#define U_LANG LALT(KC_SPC)
 
 enum layers {
     BASE,
@@ -29,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [NAV] = LAYOUT(
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               U_RDO,    U_PST,   U_CPY,   U_CUT,   U_UND,   XXXXXXX,
-        XXXXXXX,  KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, CW_TOGG,
+        U_LANG,   KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, CW_TOGG,
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_HOME,  KC_PGDN, KC_PGUP, KC_END,  KC_INS,  KC_CAPS,
                                              XXXXXXX, XXXXXXX, XXXXXXX,                              KC_ENT, KC_BSPC,  KC_DEL
     ),
