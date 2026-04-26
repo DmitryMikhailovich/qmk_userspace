@@ -15,7 +15,6 @@ enum layers {
     NAV,
     MEDIA,
     NUM,
-    // SYM,
     FUN,
 };
 
@@ -48,13 +47,6 @@ LT(MEDIA,KC_LBRC), KC_Z,       KC_X,         KC_C,         KC_V,         KC_B,  
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_SCLN,  KC_1,    KC_2,    KC_3,    KC_SLSH, XXXXXXX,
                                              XXXXXXX, XXXXXXX, XXXXXXX,                             KC_COMM, KC_0, KC_DOT
     ),
-    // [SYM] = LAYOUT(
-    //     XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    //     XXXXXXX,  KC_LCBR, KC_AMPR, KC_ASTR, KC_LPRN, KC_RCBR,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    //     XXXXXXX,  KC_COLN, KC_DLR,  KC_PERC, KC_CIRC, KC_PLUS,                                               XXXXXXX,  KC_RSFT, KC_RCTL, KC_LALT, KC_RGUI, XXXXXXX,
-    //     XXXXXXX,  KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_PIPE,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    //                                          KC_LPRN, KC_RPRN, KC_UNDS,                             XXXXXXX, XXXXXXX,  XXXXXXX
-    // ),
     [FUN] = LAYOUT(
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX,  KC_F12,  KC_F7,   KC_F8,   KC_F9,   KC_PSCR,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
