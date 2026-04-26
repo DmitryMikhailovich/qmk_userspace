@@ -10,6 +10,42 @@
 #define U_UND LCMD(KC_Z)
 #define U_LANG LALT(KC_SPC)
 
+
+// Define lighting layers for the internal LED
+const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_ORANGE}    // Light the single LED (LED 0) red when caps lock is active
+);
+
+const rgblight_segment_t PROGMEM my_capswords_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_PINK}    // Light the single LED (LED 0) yellow when caps words is active
+);
+
+const rgblight_segment_t PROGMEM my_nav_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_BLUE}   // Light the single LED (LED 0) blue when layer NAV is active
+);
+
+const rgblight_segment_t PROGMEM my_media_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_PURPLE} // Light the single LED (LED 0) purple when layer MEDIA is active
+);
+
+const rgblight_segment_t PROGMEM my_num_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_GREEN}  // Light the single LED (LED 0) green when layer NUM is active
+);
+
+const rgblight_segment_t PROGMEM my_fun_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_WHITE}  // Light the single LED (LED 0) green when layer FUN is active
+);
+
+// Layer priority: caps lock > layer 3 > layer 2 > layer 1
+const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    my_nav_layer,    // Layer NAV: Layer NAV indicator (priority 1)
+    my_media_layer,    // Layer MEDIA: Layer MEDIA indicator (priority 2)
+    my_num_layer,    // Layer NUM: Layer NUM indicator (priority 3)
+    my_fun_layer,    // Layer FUN: Layer FUN indicator (priority 4)
+    my_capswords_layer,   // Layer BASE: Caps Words indicator (priority 5)
+    my_capslock_layer   // Layer BASE: Caps lock indicator (highest priority)
+);
+
 enum layers {
     BASE,
     NAV,
@@ -55,3 +91,53 @@ LT(MEDIA,KC_LBRC), KC_Z,       KC_X,         KC_C,         KC_V,         KC_B,  
                                              XXXXXXX, XXXXXXX,  XXXXXXX,                            XXXXXXX, XXXXXXX,  XXXXXXX
     ),
 };
+
+
+void keyboard_post_init_user(void) {
+    // Enable the LED layers
+    rgblight_layers = my_rgb_layers;
+    // Restore layer states from EEPROM
+    rgblight_reload_from_eeprom();
+}
+
+// Enable/disable layers based on caps lock state
+bool led_update_user(led_t led_state) {
+    rgblight_set_layer_state(5, led_state.caps_lock);
+    return true;
+}
+
+// Enable/disable layers based on layer state
+layer_state_t layer_state_set_user(layer_state_t state) {
+    // Clear all layer states first
+    rgblight_set_layer_state(0, false);
+    rgblight_set_layer_state(1, false);
+    rgblight_set_layer_state(2, false);
+    rgblight_set_layer_state(3, false);
+    // rgblight_set_layer_state(4, false);
+    rgblight_set_layer_state(5, false);
+
+    // Set the current active layer
+    switch (get_highest_layer(state)) {
+        case NAV:
+            rgblight_set_layer_state(0, true);  // Layer NAV = blue
+            break;
+        case MEDIA:
+            rgblight_set_layer_state(1, true);  // Layer MEDIA = purple
+            break;
+        case NUM:
+            rgblight_set_layer_state(2, true);  // Layer NUM = green
+            break;
+        case FUN:
+            rgblight_set_layer_state(3, true);  // Layer FUN = white
+            break;
+        default:
+            // Layer 0 - no layer color, only caps lock and caps words will show
+            break;
+    }
+    return state;
+}
+
+// Enable/disable layers based on caps word state
+void caps_word_set_user(bool active) {
+    rgblight_set_layer_state(4, active);
+}
