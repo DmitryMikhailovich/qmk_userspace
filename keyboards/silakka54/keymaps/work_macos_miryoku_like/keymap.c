@@ -40,7 +40,7 @@ const rgblight_segment_t PROGMEM my_fun_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     my_nav_layer,    // Layer NAV: Layer NAV indicator (priority 1)
     my_media_layer,    // Layer MEDIA: Layer MEDIA indicator (priority 2)
-    my_num_layer,    // Layer NUM: Layer NUM indicator (priority 3)
+    my_num_layer,    // Layer NUMPAD: Layer NUMPAD indicator (priority 3)
     my_fun_layer,    // Layer FUN: Layer FUN indicator (priority 4)
     my_capswords_layer,   // Layer BASE: Caps Words indicator (priority 5)
     my_capslock_layer   // Layer BASE: Caps lock indicator (highest priority)
@@ -50,7 +50,7 @@ enum layers {
     BASE,
     NAV,
     MEDIA,
-    NUM,
+    NUMPAD,
     FUN,
 };
 
@@ -60,34 +60,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,                               KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_EQL,
         KC_ESC,  LCTL_T(KC_A), LALT_T(KC_S), LGUI_T(KC_D), LSFT_T(KC_F), KC_G,                               KC_H,    RSFT_T(KC_J), RGUI_T(KC_K), LALT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
 LT(MEDIA,KC_LBRC), KC_Z,       KC_X,         KC_C,         KC_V,         KC_B,                               KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RBRC,
-                                                                MO(NUM), MO(NAV), KC_SPC,            KC_ENT, KC_BSPC, LT(FUN, KC_DEL)
-    ),                                                                                              //LT(SYM, KC_ENT), LT(NUM, KC_BSPC), LT(FUN, KC_DEL)
+                                                                MO(NUMPAD), MO(NAV), KC_SPC,         KC_ENT, KC_BSPC, LT(FUN, KC_DEL)
+    ),
     [NAV] = LAYOUT(
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, U_RDO,   XXXXXXX, /*TODO: do I need undo and clipboard here?->*/U_UND,    U_PST,   U_CPY,   U_CUT,   KC_LBRC, KC_RBRC,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, U_RDO,   XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, KC_LBRC, KC_RBRC,
         U_LANG,   KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, CW_TOGG, KC_CAPS,
         XXXXXXX,  U_UND,   U_CUT,   U_CPY,   U_PST,   XXXXXXX,                                               KC_HOME,  KC_PGDN, KC_PGUP, KC_END,  KC_BSLS, KC_INS,
                                              XXXXXXX, _______, XXXXXXX,                              KC_ENT, KC_BSPC,  KC_DEL
     ),
     [MEDIA] = LAYOUT(
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  KC_BRMD, KC_BRMU, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_MPRV,  KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, XXXXXXX,
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                              XXXXXXX, XXXXXXX, XXXXXXX,                             KC_MSTP, KC_MPLY,  KC_MUTE
     ),
-    [NUM] = LAYOUT(
+    [NUMPAD] = LAYOUT(
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_LBRC,  KC_7,    KC_8,    KC_9,    KC_RBRC, XXXXXXX,
-        XXXXXXX,  KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_MINS,  KC_4,    KC_5,    KC_6,    KC_EQL,  XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_SCLN,  KC_1,    KC_2,    KC_3,    KC_SLSH, XXXXXXX,
-                                             XXXXXXX, XXXXXXX, XXXXXXX,                             KC_COMM, KC_0, KC_DOT
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_PAST,  KC_P7,   KC_P8,   KC_P9,   KC_PMNS, XXXXXXX,
+        XXXXXXX,  KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_PEQL,  KC_P4,   KC_P5,   KC_P6,   KC_PPLS, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_PENT,  KC_P1,   KC_P2,   KC_P3,   KC_PSLS, XXXXXXX,
+                                             _______, XXXXXXX, XXXXXXX,                               KC_P0, KC_BSPC,  KC_PDOT
     ),
     [FUN] = LAYOUT(
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,  KC_F12,  KC_F7,   KC_F8,   KC_F9,   KC_PSCR,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,  KC_F11,  KC_F4,   KC_F5,   KC_F6,   XXXXXXX,                                               XXXXXXX,  KC_RSFT, KC_RGUI, KC_LALT, KC_RCTL, XXXXXXX,
-        XXXXXXX,  KC_F10,  KC_F1,   KC_F2,   KC_F3,   XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX,  KC_F12,  KC_F7,   KC_F8,   KC_F9,   KC_F13,                                                XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX,  KC_F11,  KC_F4,   KC_F5,   KC_F6,   KC_F14,                                                XXXXXXX,  KC_RSFT, KC_RGUI, KC_LALT, KC_RCTL, XXXXXXX,
+        XXXXXXX,  KC_F10,  KC_F1,   KC_F2,   KC_F3,   KC_F15,                                                XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                              XXXXXXX, XXXXXXX,  XXXXXXX,                            XXXXXXX, XXXXXXX,  XXXXXXX
     ),
 };
@@ -124,8 +124,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case MEDIA:
             rgblight_set_layer_state(1, true);  // Layer MEDIA = purple
             break;
-        case NUM:
-            rgblight_set_layer_state(2, true);  // Layer NUM = green
+        case NUMPAD:
+            rgblight_set_layer_state(2, true);  // Layer NUMPAD = green
             break;
         case FUN:
             rgblight_set_layer_state(3, true);  // Layer FUN = white
