@@ -3,6 +3,8 @@
 
 #include QMK_KEYBOARD_H
 
+#include "swapper.h"
+
 #define U_RDO SCMD(KC_Z)
 #define U_PST LCMD(KC_V)
 #define U_CPY LCMD(KC_C)
@@ -46,6 +48,16 @@ const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     my_capslock_layer   // Layer BASE: Caps lock indicator (highest priority)
 );
 
+bool sw_app_active = false;
+bool sw_win_active = false;
+bool sw_lang_active = false;
+
+enum keycodes {
+    SW_APP = SAFE_RANGE,
+    SW_WIN,
+    SW_LANG,
+};
+
 enum layers {
     BASE,
     NAV,
@@ -63,10 +75,10 @@ LT(MEDIA,KC_LBRC), KC_Z,       KC_X,         KC_C,         KC_V,         KC_B,  
                                                                 MO(NUMPAD), MO(NAV), KC_SPC,         KC_ENT, KC_BSPC, LT(FUN, KC_DEL)
     ),
     [NAV] = LAYOUT(
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, U_RDO,   XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, KC_LBRC, KC_RBRC,
-        U_LANG,   KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, CW_TOGG, KC_CAPS,
-        XXXXXXX,  U_UND,   U_CUT,   U_CPY,   U_PST,   XXXXXXX,                                               KC_HOME,  KC_PGDN, KC_PGUP, KC_END,  KC_BSLS, KC_INS,
+        SW_WIN,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        SW_APP,  XXXXXXX, XXXXXXX, XXXXXXX, U_RDO,   XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, KC_LBRC, KC_RBRC,
+        SW_LANG, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, CW_TOGG, KC_CAPS,
+        XXXXXXX, U_UND,   U_CUT,   U_CPY,   U_PST,   XXXXXXX,                                               KC_HOME,  KC_PGDN, KC_PGUP, KC_END,  KC_BSLS, KC_INS,
                                              XXXXXXX, _______, XXXXXXX,                              KC_ENT, KC_BSPC,  KC_DEL
     ),
     [MEDIA] = LAYOUT(
@@ -135,6 +147,25 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             break;
     }
     return state;
+}
+
+// https://github.com/qmk/qmk_firmware/blob/user-keymaps-still-present/users/callum/callum.c
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    bool is_shifted = get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT);
+    update_swapper(
+        &sw_win_active, KC_LGUI, KC_GRV, SW_WIN,
+        keycode, record, is_shifted
+    );
+    update_swapper(
+        &sw_app_active, KC_LGUI, KC_TAB, SW_APP,
+        keycode, record, is_shifted
+    );
+    update_swapper(
+        &sw_lang_active, KC_LOPT, KC_SPC, SW_LANG,
+        keycode, record, is_shifted
+    );
+
+    return true;
 }
 
 // Enable/disable layers based on caps word state
