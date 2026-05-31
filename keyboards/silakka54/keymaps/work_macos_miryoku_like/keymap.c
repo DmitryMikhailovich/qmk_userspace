@@ -76,7 +76,7 @@ LT(MEDIA, KC_ESC),LCTL_T(KC_A),LALT_T(KC_S), LGUI_T(KC_D), LSFT_T(KC_F), KC_G,  
     ),
     [NAV] = LAYOUT(
         SW_WIN,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        SW_APP,  XXXXXXX, XXXXXXX, XXXXXXX, U_RDO,   XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, KC_LBRC, KC_RBRC,
+        SW_APP,  XXXXXXX, XXXXXXX, XXXXXXX, U_RDO,   XXXXXXX,                                               KC_GRV,   XXXXXXX, XXXXXXX, XXXXXXX, KC_LBRC, KC_RBRC,
         SW_LANG, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, CW_TOGG, KC_CAPS,
         XXXXXXX, U_UND,   U_CUT,   U_CPY,   U_PST,   XXXXXXX,                                               KC_HOME,  KC_PGDN, KC_PGUP, KC_END,  KC_BSLS, KC_INS,
                                             XXXXXXX, _______, XXXXXXX,                              KC_ENT, KC_BSPC,  KC_DEL
