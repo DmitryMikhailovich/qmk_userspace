@@ -70,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT(
         KC_GRV,  KC_1,         KC_2,         KC_3,         KC_4,         KC_5,                               KC_6,    KC_7,         KC_8,         KC_9,         KC_0,            KC_MINS,
         KC_TAB,  KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,                               KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_EQL,
-LT(MEDIA, KC_ESC),LCTL_T(KC_A),LALT_T(KC_S), LGUI_T(KC_D), LSFT_T(KC_F), KC_G,                               KC_H,    RSFT_T(KC_J), RGUI_T(KC_K), LALT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
+        KC_ESC,   LCTL_T(KC_A),LALT_T(KC_S), LGUI_T(KC_D), LSFT_T(KC_F), KC_G,                               KC_H,    RSFT_T(KC_J), RGUI_T(KC_K), LALT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
        KC_LSFT,  KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,                               KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RSFT,
                                                              MO(NUMPAD), MO(NAV), KC_SPC,            KC_ENT, KC_BSPC, LT(FUN, KC_DEL)
     ),
@@ -78,14 +78,14 @@ LT(MEDIA, KC_ESC),LCTL_T(KC_A),LALT_T(KC_S), LGUI_T(KC_D), LSFT_T(KC_F), KC_G,  
         SW_WIN,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         SW_APP,  XXXXXXX, XXXXXXX, XXXXXXX, U_RDO,   XXXXXXX,                                               KC_GRV,   XXXXXXX, XXXXXXX, XXXXXXX, KC_LBRC, KC_RBRC,
         SW_LANG, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, CW_TOGG, KC_CAPS,
-        XXXXXXX, U_UND,   U_CUT,   U_CPY,   U_PST,   XXXXXXX,                                               KC_HOME,  KC_PGDN, KC_PGUP, KC_END,  KC_BSLS, KC_INS,
+      MO(MEDIA), U_UND,   U_CUT,   U_CPY,   U_PST,   XXXXXXX,                                               KC_HOME,  KC_PGDN, KC_PGUP, KC_END,  KC_BSLS, KC_INS,
                                             XXXXXXX, _______, XXXXXXX,                              KC_ENT, KC_BSPC,  KC_DEL
     ),
     [MEDIA] = LAYOUT(
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  KC_BRMD, KC_BRMU, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_MPRV,  KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        _______,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                              XXXXXXX, XXXXXXX, XXXXXXX,                             KC_MSTP, KC_MPLY,  KC_MUTE
     ),
     [NUMPAD] = LAYOUT(
