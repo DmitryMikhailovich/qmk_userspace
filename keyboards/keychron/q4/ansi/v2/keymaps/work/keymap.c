@@ -59,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [MAC_FN1] = LAYOUT_ansi_61(
         _______,  KC_BRID,  KC_BRIU, KC_MCTL, KC_LPAD, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,
-        _______,  KC_HOME,  KC_UP,    KC_END, KC_PGUP, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
+        _______,  KC_HOME,  KC_UP,   KC_END,  KC_PGUP, _______, _______, _______, _______, _______, _______,  _______,  _______,  _______,
         _______,  KC_LEFT,  KC_DOWN,KC_RIGHT, KC_PGDN, _______, _______, _______, _______, _______, _______,  _______,            _______,
         _______,           _______, _______, _______,  _______, _______, NK_TOGG, _______, _______, _______,  _______,            _______,
         _______, _______,  _______,                            _______,                            _______,  _______,   _______,  _______),
@@ -80,9 +80,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [HOLD_CAPS] = LAYOUT_ansi_61(
         XXXXXXX, KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,         KC_DEL,
-        XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_PGUP, KC_PGDN, KC_END,   XXXXXXX,  XXXXXXX,        KC_CAPS,
-        XXXXXXX, XXXXXXX,  XXXXXXX,  KC_DEL, XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,XXXXXXX,  XXXXXXX,                  KC_INS,
-        _______,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,                  M_RSFT,
+        XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,        KC_CAPS,
+        XXXXXXX, XXXXXXX,  XXXXXXX, KC_DEL,  XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,XXXXXXX,  XXXXXXX,                  KC_INS,
+        _______,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_PGDN, KC_PGUP, KC_END,   XXXXXXX,                  M_RSFT,
         _______, _______,  _______,                            _______,                            XXXXXXX,  M_FN1,    M_FN2,          M_RCTL)
                                                             /* ^^^^^^^caps word*/
 };
