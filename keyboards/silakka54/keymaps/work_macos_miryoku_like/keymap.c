@@ -77,9 +77,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [NAV] = LAYOUT(
         SW_WIN,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         SW_APP,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,   KC_GRV, XXXXXXX, XXXXXXX, KC_LBRC, KC_RBRC,
-        SW_LANG, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, CW_TOGG, KC_CAPS,
+        SW_LANG, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
       MO(MEDIA), U_UND,   U_CUT,   U_CPY,   U_PST,   XXXXXXX,                                               KC_HOME,  KC_PGDN, KC_PGUP, KC_END,  KC_BSLS, XXXXXXX,
-                                            XXXXXXX, _______, XXXXXXX,                              KC_ENT, KC_BSPC,  KC_DEL
+                                            XXXXXXX, _______, XXXXXXX,                             KC_CAPS, KC_BSPC,  CW_TOGG
     ),
     [MEDIA] = LAYOUT(
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -90,10 +90,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [NUMPAD] = LAYOUT(
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  KC_7,    KC_8,    KC_9,    KC_MINS, XXXXXXX,
-        XXXXXXX,  KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               XXXXXXX,  KC_4,    KC_5,    KC_6,    KC_EQL,  XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  KC_7,    KC_8,    KC_9,    KC_MINS, KC_EQL,
+        XXXXXXX,  KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               XXXXXXX,  KC_4,    KC_5,    KC_6,    KC_PDOT, XXXXXXX,
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_0,     KC_1,    KC_2,    KC_3,    KC_PSLS, XXXXXXX,
-                                             _______, XXXXXXX, XXXXXXX,                              KC_ENT, KC_BSPC,  KC_PDOT
+                                             _______, XXXXXXX, XXXXXXX,                              KC_ENT, KC_BSPC,  KC_DEL
     ),
     [FUN] = LAYOUT(
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
