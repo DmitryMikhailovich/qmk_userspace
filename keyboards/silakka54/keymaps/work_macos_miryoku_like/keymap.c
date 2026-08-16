@@ -89,10 +89,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                              XXXXXXX, XXXXXXX, XXXXXXX,                             XXXXXXX, KC_MPLY,  KC_MUTE
     ),
     [NUMPAD] = LAYOUT(
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  KC_7,    KC_8,    KC_9,    KC_MINS, KC_EQL,
         XXXXXXX,  KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               XXXXXXX,  KC_4,    KC_5,    KC_6,    KC_PDOT, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_0,     KC_1,    KC_2,    KC_3,    KC_PSLS, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_0,     KC_1,    KC_2,    KC_3,    KC_PSLS, KC_BSLS,
                                              _______, XXXXXXX, XXXXXXX,                              KC_ENT, KC_BSPC,  KC_DEL
     ),
     [FUN] = LAYOUT(
