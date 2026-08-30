@@ -15,11 +15,11 @@
 
 // Define lighting layers for the internal LED
 const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 1, HSV_ORANGE}    // Light the single LED (LED 0) red when caps lock is active
+    {0, 1, HSV_ORANGE}    // Light the single LED (LED 0) orange when Caps Lock is active
 );
 
 const rgblight_segment_t PROGMEM my_capswords_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 1, HSV_PINK}    // Light the single LED (LED 0) yellow when caps words is active
+    {0, 1, HSV_PINK}    // Light the single LED (LED 0) pink when Caps Word is active
 );
 
 const rgblight_segment_t PROGMEM my_nav_layer[] = RGBLIGHT_LAYER_SEGMENTS(
@@ -35,7 +35,7 @@ const rgblight_segment_t PROGMEM my_num_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 );
 
 const rgblight_segment_t PROGMEM my_fun_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 1, HSV_WHITE}  // Light the single LED (LED 0) green when layer FUN is active
+    {0, 1, HSV_WHITE}  // Light the single LED (LED 0) white when layer FUN is active
 );
 
 // Layer priority: caps lock > layer 3 > layer 2 > layer 1
