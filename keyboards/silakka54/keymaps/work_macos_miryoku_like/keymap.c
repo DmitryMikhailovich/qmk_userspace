@@ -49,8 +49,11 @@ const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
 );
 
 bool sw_app_active = false;
+bool sw_app_shifted = false;
 bool sw_win_active = false;
+bool sw_win_shifted = false;
 bool sw_lang_active = false;
+bool sw_lang_shifted = false;
 
 enum keycodes {
     SW_APP = SAFE_RANGE,
@@ -126,7 +129,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(2, false);
     rgblight_set_layer_state(3, false);
     // rgblight_set_layer_state(4, false);
-    rgblight_set_layer_state(5, false);
+    // Caps Lock is managed by led_update_user(). Do not clear it here: a layer
+    // transition does not trigger a host LED-state update.
 
     // Set the current active layer
     switch (get_highest_layer(state)) {
@@ -153,15 +157,15 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     bool is_shifted = get_mods() & MOD_BIT(KC_LSFT) || get_mods() & MOD_BIT(KC_RSFT);
     update_swapper(
-        &sw_win_active, KC_LGUI, KC_GRV, SW_WIN,
+        &sw_win_active, &sw_win_shifted, KC_LGUI, KC_GRV, SW_WIN, MO(NAV),
         keycode, record, is_shifted
     );
     update_swapper(
-        &sw_app_active, KC_LGUI, KC_TAB, SW_APP,
+        &sw_app_active, &sw_app_shifted, KC_LGUI, KC_TAB, SW_APP, MO(NAV),
         keycode, record, is_shifted
     );
     update_swapper(
-        &sw_lang_active, KC_LOPT, KC_SPC, SW_LANG,
+        &sw_lang_active, &sw_lang_shifted, KC_LOPT, KC_SPC, SW_LANG, MO(NAV),
         keycode, record, is_shifted
     );
 
