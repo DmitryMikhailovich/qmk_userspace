@@ -10,6 +10,9 @@
 #define U_CPY LCMD(KC_C)
 #define U_CUT LCMD(KC_X)
 #define U_UND LCMD(KC_Z)
+#define U_REF LCMD(KC_R)
+#define U_CTAB LCMD(KC_W)
+#define U_NTAB LCMD(KC_T)
 #define U_LANG LALT(KC_SPC)
 
 
@@ -26,10 +29,6 @@ const rgblight_segment_t PROGMEM my_nav_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 1, HSV_BLUE}   // Light the single LED (LED 0) blue when layer NAV is active
 );
 
-const rgblight_segment_t PROGMEM my_media_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 1, HSV_PURPLE} // Light the single LED (LED 0) purple when layer MEDIA is active
-);
-
 const rgblight_segment_t PROGMEM my_num_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 1, HSV_GREEN}  // Light the single LED (LED 0) green when layer NUM is active
 );
@@ -38,14 +37,18 @@ const rgblight_segment_t PROGMEM my_fun_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 1, HSV_WHITE}  // Light the single LED (LED 0) white when layer FUN is active
 );
 
-// Layer priority: caps lock > layer 3 > layer 2 > layer 1
+const rgblight_segment_t PROGMEM my_esc_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_PURPLE} // Light the single LED (LED 0) purple while the Esc layer is active
+);
+
+// Layer priority: Caps Lock > Caps Word > Esc layer > other layers
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     my_nav_layer,    // Layer NAV: Layer NAV indicator (priority 1)
-    my_media_layer,    // Layer MEDIA: Layer MEDIA indicator (priority 2)
-    my_num_layer,    // Layer NUMPAD: Layer NUMPAD indicator (priority 3)
-    my_fun_layer,    // Layer FUN: Layer FUN indicator (priority 4)
+    my_num_layer,    // Layer NUMPAD: Layer NUMPAD indicator (priority 2)
+    my_fun_layer,    // Layer FUN: Layer FUN indicator (priority 3)
+    my_esc_layer,    // Layer ESC: Esc layer indicator (priority 4)
     my_capswords_layer,   // Layer BASE: Caps Words indicator (priority 5)
-    my_capslock_layer   // Layer BASE: Caps lock indicator (highest priority)
+    my_capslock_layer   // Layer BASE: Caps Lock indicator (highest priority)
 );
 
 bool sw_app_active = false;
@@ -64,32 +67,25 @@ enum keycodes {
 enum layers {
     BASE,
     NAV,
-    MEDIA,
     NUMPAD,
     FUN,
+    HOLD_ESC,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT(
         KC_GRV,  KC_1,         KC_2,         KC_3,         KC_4,         KC_5,                               KC_6,    KC_7,         KC_8,         KC_9,         KC_0,            KC_EQL,
         KC_TAB,  KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,                               KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_MINS,
-        KC_ESC,  LCTL_T(KC_A), LALT_T(KC_S), LGUI_T(KC_D), LSFT_T(KC_F), KC_G,                               KC_H,    RSFT_T(KC_J), RGUI_T(KC_K), LALT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
+        LT(HOLD_ESC, KC_ESC), LCTL_T(KC_A), LALT_T(KC_S), LGUI_T(KC_D), LSFT_T(KC_F), KC_G,                  KC_H,    RSFT_T(KC_J), RGUI_T(KC_K), LALT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
        KC_LSFT,  KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,                               KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RSFT,
                                                              MO(NUMPAD), MO(NAV), KC_SPC,            KC_ENT, KC_BSPC, LT(FUN, KC_DEL)
     ),
     [NAV] = LAYOUT(
         SW_WIN,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        SW_APP,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,   KC_GRV, XXXXXXX, XXXXXXX, KC_LBRC, KC_RBRC,
+        SW_APP,  XXXXXXX, U_CTAB,  XXXXXXX, U_REF,   U_NTAB,                                                XXXXXXX,   KC_GRV, XXXXXXX, XXXXXXX, KC_LBRC, KC_RBRC,
         SW_LANG, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                                               KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
-      MO(MEDIA), U_UND,   U_CUT,   U_CPY,   U_PST,   XXXXXXX,                                               KC_HOME,  KC_PGDN, KC_PGUP, KC_END,  KC_BSLS, XXXXXXX,
-                                            XXXXXXX, _______, XXXXXXX,                             KC_CAPS, KC_BSPC,  CW_TOGG
-    ),
-    [MEDIA] = LAYOUT(
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  KC_BRMD, KC_BRMU, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               KC_MPRV,  KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, XXXXXXX,
-        _______,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                             XXXXXXX, XXXXXXX, XXXXXXX,                             XXXXXXX, KC_MPLY,  KC_MUTE
+        XXXXXXX, U_UND,   U_CUT,   U_CPY,   U_PST,   XXXXXXX,                                               KC_HOME,  KC_PGDN, KC_PGUP, KC_END,  KC_BSLS, XXXXXXX,
+                                            XXXXXXX, _______, XXXXXXX,                             CW_TOGG, KC_BSPC,  KC_CAPS
     ),
     [NUMPAD] = LAYOUT(
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
@@ -99,11 +95,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                              _______, XXXXXXX, XXXXXXX,                              KC_ENT, KC_BSPC,  KC_DEL
     ),
     [FUN] = LAYOUT(
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        QK_BOOT,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX,  KC_F12,  KC_F11,  KC_F10,  KC_F9,   XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX,  KC_F8,   KC_F7,   KC_F6,   KC_F5,   XXXXXXX,                                               XXXXXXX,  KC_RSFT, KC_RGUI, KC_LALT, KC_RCTL, XXXXXXX,
         XXXXXXX,  KC_F4,   KC_F3,   KC_F2,   KC_F1,   XXXXXXX,                                               XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                              XXXXXXX, XXXXXXX,  XXXXXXX,                            XXXXXXX, XXXXXXX,  XXXXXXX
+    ),
+    [HOLD_ESC] = LAYOUT(
+        XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,                                            XXXXXXX, KC_BRMD, KC_BRMU, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,                                            KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MUTE,
+        _______, KC_LCTL,  KC_LALT,  KC_LGUI,  KC_LSFT,  XXXXXXX,                                            KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,                                            KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX, XXXXXXX,
+                                               XXXXXXX,  XXXXXXX,  XXXXXXX,                         CW_TOGG, KC_BSPC,  KC_CAPS
     ),
 };
 
@@ -113,7 +116,7 @@ void keyboard_post_init_user(void) {
     rgblight_layers = my_rgb_layers;
     rgblight_enable_noeeprom();
     rgblight_sethsv_noeeprom(HSV_OFF);
-    rgblight_set_layer_state(6, host_keyboard_led_state().caps_lock);
+    rgblight_set_layer_state(5, host_keyboard_led_state().caps_lock);
 }
 
 // Enable/disable layers based on caps lock state
@@ -129,7 +132,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(1, false);
     rgblight_set_layer_state(2, false);
     rgblight_set_layer_state(3, false);
-    // rgblight_set_layer_state(4, false);
+    rgblight_set_layer_state(4, false);
     // Caps Lock is managed by led_update_user(). Do not clear it here: a layer
     // transition does not trigger a host LED-state update.
 
@@ -138,14 +141,14 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case NAV:
             rgblight_set_layer_state(0, true);  // Layer NAV = blue
             break;
-        case MEDIA:
-            rgblight_set_layer_state(1, true);  // Layer MEDIA = purple
-            break;
         case NUMPAD:
-            rgblight_set_layer_state(2, true);  // Layer NUMPAD = green
+            rgblight_set_layer_state(1, true);  // Layer NUMPAD = green
             break;
         case FUN:
-            rgblight_set_layer_state(3, true);  // Layer FUN = white
+            rgblight_set_layer_state(2, true);  // Layer FUN = white
+            break;
+        case HOLD_ESC:
+            rgblight_set_layer_state(3, true);  // Layer ESC = purple
             break;
         default:
             // Layer 0 - no layer color, only caps lock and caps words will show
