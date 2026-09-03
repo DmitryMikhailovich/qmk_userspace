@@ -109,10 +109,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 void keyboard_post_init_user(void) {
-    // Enable the LED layers
+    // Keep the base LED off; only status and layer overlays should light it.
     rgblight_layers = my_rgb_layers;
-    // Restore layer states from EEPROM
-    rgblight_reload_from_eeprom();
+    rgblight_enable_noeeprom();
+    rgblight_sethsv_noeeprom(HSV_OFF);
+    rgblight_set_layer_state(6, host_keyboard_led_state().caps_lock);
 }
 
 // Enable/disable layers based on caps lock state
